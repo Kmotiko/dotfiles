@@ -26,7 +26,7 @@ export PATH=/usr/texbin:$PATH
 # Go
 EXIST_GO=`which go`
 if [ -n $EXIST_GO ]; then
-  if [ ! -d "$HOME/.go" ];
+  if [ ! -d "$HOME/.go" ]; then
     mkdir -p $HOME/.go
   fi
   export GOROOT=`go env GOROOT`
