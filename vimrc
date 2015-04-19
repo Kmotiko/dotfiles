@@ -118,6 +118,7 @@ else
   "
   NeoBundle 'Shougo/unite.vim'
   NeoBundle 'thinca/vim-quickrun'
+  NeoBundle 'thinca/vim-ref'
   NeoBundle 'osyo-manga/unite-quickfix'
   NeoBundle 'tpope/vim-markdown'
   NeoBundle 'Shougo/neosnippet'
@@ -351,10 +352,10 @@ nnoremap <silent>vs :VimShell<CR>
 nnoremap <silent>ss :VimShellSendString<CR>
 
 
-"vimfiler
+" vimfiler
 nnoremap <F2> :VimFiler -split -simple -winwidth=30 -no-quit<CR>
 
-"gtags
+" gtags
 nnoremap <Leader>? :GtagsCursor<CR> 
 nnoremap <C-\> :Gtags -r <C-r><C-w><CR> 
 
@@ -383,6 +384,28 @@ let g:quickrun_config['cpp/g++'] = {
 "    \   'cmdopt': '-s html5',
 "    \   'outputter': 'browser'
 "    \}
+
+
+" syntax
+AutocmdFT cpp nnoremap <silent><buffer><Leader>sc :<C-u>QuickRun -type cpp/clang<CR>
+
+if executable('pyflakes')
+  let g:quickrun_config['syntax/python'] = {
+      \ 'command' : 'pyflakes',
+      \ 'exec' : '%c %o %s:p',
+      \ 'errorformat' : '%f %l:%c %m',
+      \ }
+  Autocmd BufWritePost *.py QuickRun -type syntax/python
+endif
+
+if executable('go')
+  let g:quickrun_config['syntax/go'] = {
+      \ 'command' : 'go',
+      \ 'exec' : '%c vet %o %s:p',
+      \ 'errorformat' : '%f %l:%c %m',
+      \ }
+  Autocmd BufWritePost *.go QuickRun -type syntax/go
+endif
 
 " }}}
 
@@ -416,3 +439,9 @@ AutocmdFT * setlocal formatoptions-=r formatoptions-=o
 
 " quickfix
 Autocmd QuickFixCmdPost *grep* cwindow
+
+
+" vim-ref {{{
+" pydoc
+AutocmdFT python nnoremap <silent><buffer> <Space>k :<C-u>Unite -start-insert -default-action=split ref/pydoc<CR>
+" }}}
