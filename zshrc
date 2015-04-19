@@ -6,8 +6,14 @@ autoload -U colors; colors
 
 # set opt
 setopt auto_pushd
-setopt pushd_ignore_dups
+#setopt pushd_ignore_dups
 setopt extended_glob
+setopt extended_historY
+
+# history
+export HISTFILE=$HOME/.zsh_history
+export HISTSIZE=1000
+export SAVEHIST=100000
 
 if [ -d "/usr/local/bin" ];then
   export PATH=/usr/local/bin:$PATH
@@ -19,6 +25,9 @@ source $LLVMENV_HOME/etc/llvmenvrc
 
 # rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init - zsh)"; fi
+
+# pyenv
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 
 # tex
 export PATH=/usr/texbin:$PATH
