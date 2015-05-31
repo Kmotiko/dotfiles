@@ -103,9 +103,7 @@ endif
 call neobundle#begin(expand('~/.vim/bundle/'))
 
 " キャッシュがあればロード
-if neobundle#has_fresh_cache(expand('$MYVIMRC'))
-  NeoBundleLoadCache
-else
+if neobundle#load_cache(expand('$MYVIMRC'))
   NeoBundle 'Shougo/neobundle.vim'
   NeoBundle 'Shougo/vimproc', {
         \ 'build' : {
@@ -186,6 +184,10 @@ else
     \ 'depends' : 'kana/vim-operator-user',
     \ 'autoload'  : {'filetypes' : ['c', 'cpp']},
   \ }
+
+  NeoBundleLazy 'majutsushi/tagbar', {
+        \ 'commands': 'TagbarToggle'
+        \ }
   
   
   NeoBundleSaveCache
@@ -353,12 +355,14 @@ nnoremap <silent>ss :VimShellSendString<CR>
 
 
 " vimfiler
-nnoremap <F2> :VimFiler -split -simple -winwidth=30 -no-quit<CR>
+nnoremap <F2> :VimFiler -split -simple -winwidth=30 -toggle -no-quit<CR>
 
 " gtags
 nnoremap <Leader>? :GtagsCursor<CR> 
 nnoremap <C-\> :Gtags -r <C-r><C-w><CR> 
 
+" tagbar
+nnoremap <F3> :TagbarToggle<CR>
 
 " quickrun {{{
 let g:quickrun_config = {}
@@ -425,7 +429,7 @@ noremap <Leader>mn  :MemoNew<CR>
 noremap <Leader>ml  :MemoList<CR>
 
 " vim-clang-format {{{
-let g:clang_format#command="clang-format35"
+let g:clang_format#command="clang-format-36"
 let g:clang_format#style_options = {
         \ "BasedOnStyle" : "LLVM", 
         \ "IndentWidth": 2,
