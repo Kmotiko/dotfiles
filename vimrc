@@ -355,7 +355,7 @@ nnoremap <silent>ss :VimShellSendString<CR>
 
 
 " vimfiler
-nnoremap <F2> :VimFiler -split -simple -winwidth=30 -toggle -no-quit<CR>
+nnoremap <F2> :VimFilerCreate -split -simple -winwidth=30 -toggle -no-quit<CR>
 
 " gtags
 nnoremap <Leader>? :GtagsCursor<CR> 
