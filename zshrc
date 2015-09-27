@@ -19,15 +19,16 @@ if [ -d "/usr/local/bin" ];then
   export PATH=/usr/local/bin:$PATH
 fi
 
-# LLVMENV
-export LLVMENV_HOME=~/.llvmenv
-source $LLVMENV_HOME/etc/llvmenvrc
-
 # rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init - zsh)"; fi
 
 # pyenv
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+
+# LLVMENV
+export LLVMENV_HOME=~/.llvmenv
+export PATH=$LLVMENV_HOME/bin:$PATH
+if which llvmenv > /dev/null; then eval "$(llvmenv init)"; fi
 
 # tex
 export PATH=/usr/texbin:$PATH
