@@ -399,7 +399,7 @@ if executable('pyflakes')
       \ 'exec' : '%c %o %s:p',
       \ 'errorformat' : '%f %l:%c %m',
       \ }
-  Autocmd BufWritePost *.py QuickRun -type syntax/python
+  "Autocmd BufWritePost *.py QuickRun -type syntax/python
 endif
 
 if executable('go')
