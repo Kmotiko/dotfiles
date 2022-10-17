@@ -1,15 +1,13 @@
 #!/bin/bash
 
-clone_neobundle(){
+clone_dein(){
   echo "=========================================="
-  if [ ! -d ~/.vim/bundle ]; then
-    echo "create bundle directory..."
-    mkdir -p ~/.vim/bundle
-  fi
-
-  if [ ! -d ~/.vim/bundle/neobundle.vim ]; then
-    echo "Start to glone NeoBundle..."
-    git clone https://github.com/Shougo/neobundle.vim.git ~/.vim/bundle/neobundle.vim
+  if [ ! -d ~/.cache/dein ]; then
+    echo "create dein directory..."
+    mkdir -p ~/.cache/dein
+    curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > ~/.cache/dein/installer.sh
+    chmod +x ~/.cache/dein/installer.sh
+    ~/.cache/dein/installer.sh ~/.cache/dein
   else
     echo "NeoBudndle is already cloned."
   fi
@@ -47,7 +45,7 @@ do_install(){
   echo "=========================================="
   echo ""
 
-  clone_neobundle
+  clone_dein
 }
 
 

@@ -96,113 +96,121 @@ cnoremap <C-h> <LEFT>
 cnoremap <C-l> <RIGHT>
 
 
-" neobundle {{{
+" dein {{{
+let s:dein_dir = expand('~/.cache/dein') 
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+ 
 if has('vim_starting')
-	set runtimepath+=~/.vim/bundle/neobundle.vim/
+  execute 'set runtimepath+=' . expand(s:dein_repo_dir)
 endif
-call neobundle#begin(expand('~/.vim/bundle/'))
 
 " キャッシュがあればロード
-if neobundle#load_cache(expand('$MYVIMRC'))
-  NeoBundle 'Shougo/neobundle.vim'
-  NeoBundle 'Shougo/vimproc', {
+" if dein#load_state(expand('$MYVIMRC'))
+if dein#load_state(s:dein_dir)
+  call dein#begin(expand('~/.cache/dein/'))
+
+
+  call dein#add('Shougo/vimproc', {
         \ 'build' : {
         \     'windows' : 'make -f make_mingw32.mak',
         \     'cygwin' : 'make -f make_cygwin.mak',
         \     'mac' : 'make -f make_mac.mak',
         \     'unix' : 'make -f make_unix.mak',
         \    },
-        \ }
+        \ })
   "
-  NeoBundle 'Shougo/unite.vim'
-  NeoBundle 'thinca/vim-quickrun'
-  NeoBundle 'thinca/vim-ref'
-  NeoBundle 'osyo-manga/unite-quickfix'
-  NeoBundle 'tpope/vim-markdown'
-  NeoBundle 'Shougo/neosnippet'
-  NeoBundle 'Shougo/neosnippet-snippets'
-  NeoBundle 'sudo.vim'
-  NeoBundle 'glidenote/memolist.vim'
+  call dein#add('Shougo/unite.vim')
+  call dein#add('thinca/vim-quickrun')
+  call dein#add('thinca/vim-ref')
+  call dein#add('osyo-manga/unite-quickfix')
+  call dein#add('tpope/vim-markdown')
+  call dein#add('Shougo/neosnippet')
+  call dein#add('Shougo/neosnippet-snippets')
+  "call dein#add('sudo.vim')
+  call dein#add('glidenote/memolist.vim')
 
   "
-  NeoBundleLazy 'Shougo/vimfiler', {
+  call dein#add('Shougo/vimfiler', {
     \ 'depends'  : 'Shougo/unite.vim',
     \ 'autoload'  : { 
       \ 'commands' : [ 'VimFiler', 'VimFilerSplit', 
       \                 'VimFilerBufferDir', 'VimFilerCurrentDir', 'VimFilerCreate',
       \                 'VimFIlerDouble', 'VimFilerExplorer'] 
     \ } 
-  \ }
+  \ })
 
   "
-  NeoBundleLazy 'Shougo/vimshell', {
+  call dein#add('Shougo/vimshell', {
     \ 'autoload'  : { 
       \ 'commands' : [ 'VimShell', 'VimShelCurrentDir', 'VimShellBufferDir'],
     \ }
-  \ }
+  \ })
 
 
-  NeoBundleLazy 'kannokanno/previm', {
+  call dein#add('kannokanno/previm', {
     \ 'depends' : 'tyru/open-browser.vim',
     \ 'autoload'  : {
       \ 'commands' : 'PrevimOpen',
       \ 'filetypes' : 'markdown'
     \ }
-  \ }
+  \ })
 
   "
-  NeoBundleLazy 'tyru/open-browser.vim', {
+  call dein#add('tyru/open-browser.vim', {
     \ 'autoload'  : { 
       \ 'commands' : [
       \ 'OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch'
       \ ] ,
       \ 'functions' : '*openbrowser#open'
     \ }
-  \ }
+  \ })
 
 
   " neocomplete or neocomplcache
   if has('lua')
-      NeoBundle 'Shougo/neocomplete'
+      call dein#add('Shougo/neocomplete')
   else
-      NeoBundle 'Shougo/neocomplcache'
+      call dein#add('Shougo/neocomplcache')
   endif
 
   " clang complete
-  NeoBundleLazy 'Rip-Rip/clang_complete', {
-    \ 'depends' : 'kana/vim-operator-user',
-    \ 'autoload'  : {'filetypes' : ['c', 'cpp']},
-  \ }
+  "call dein#add('Rip-Rip/clang_complete', {
+  "  \ 'depends' : 'kana/vim-operator-user',
+  "  \ 'autoload'  : {'filetypes' : ['c', 'cpp']},
+  "\ })
 
   " gtags
-  NeoBundleLazy 'vim-scripts/gtags.vim', {
-    \ 'autoload'  : {'filetypes' : ['c', 'cpp']},
-  \ }
+  " call dein#add('vim-scripts/gtags.vim', {
+  "   \ 'autoload'  : {'filetypes' : ['c', 'cpp']},
+  " \ })
 
   " vim-clang-format
-  NeoBundleLazy 'rhysd/vim-clang-format', {
+  call dein#add('rhysd/vim-clang-format', {
     \ 'depends' : 'kana/vim-operator-user',
     \ 'autoload'  : {'filetypes' : ['c', 'cpp']},
-  \ }
+  \ })
 
-  NeoBundleLazy 'majutsushi/tagbar', {
+  call dein#add('majutsushi/tagbar', {
         \ 'commands': 'TagbarToggle'
-        \ }
+        \ })
   
   
-  NeoBundleSaveCache
+  call dein#end()
+  call dein#save_state()
 endif
-call neobundle#end()
+
+
 filetype plugin indent on
 syntax enable
-Autocmd BufWritePost *vimrc,*gvimrc NeoBundleClearCache
+" Autocmd BufWritePost *vimrc,*gvimrc NeoBundleClearCache
 
 
-if neobundle#exists_not_installed_bundles()
-	echomsg 'Not installed bundles : ' .
-	\ string(neobundle#get_not_installed_bundle_names())
-	echomsg 'Please execute ":NeoBundleInstall" command.'
-endif
+call dein#check_install()
+" if dein#check_install()
+"   echomsg 'Not installed bundles : ' .
+"   \ string(dein#get_not_installed_bundle_names())
+"   echomsg 'Please execute ":dein#install" command.'
+" endif
 " }}}
 
 
